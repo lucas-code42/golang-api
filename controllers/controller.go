@@ -5,6 +5,8 @@ CRIAR UMA INCREMENTADOR DE ID PARA STRUCT
 CRIAR UMA FUNÇÃO SANITÁRIA QUE VAI TRATAR OS INPUTS DO USUARIO DENTRO DA API
 FUNÇÃO UPDATE: Criar uma verificação caso o id passado nao exista
 MIDLEWARE PARA STATUS CODE
+MIDDLEWARE PARA SET HEADERS CONTENT TYPE
+CRIAR UMA FUNCAO PARA LOGS
 */
 
 import (
@@ -18,10 +20,12 @@ import (
 
 // Home executa o processamento que veio encaminhado da rota "/"
 func Home(w http.ResponseWriter, r *http.Request) {
+	// seta no headers que a resposta é em json
+	w.Header().Set("content-type", "application/json")
+
 	// validação do método vindo do client
 	if r.Method == "GET" {
 		fmt.Fprint(w, "home page")
-
 	} else {
 		fmt.Println(r.Method)
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
@@ -30,11 +34,12 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 // Mostra uma lista de lingaguems cadastradas "/languages"
 func ReadLanguages(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
 	// verifica o método usado na requisição, caso nao seja retorna method not allowed
 	if r.Method != "GET" {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
 	}
-
 	fmt.Println("Processamento ShowLanguages")
 
 	// Retorna o objeto instanciado em models em JSON
@@ -43,6 +48,8 @@ func ReadLanguages(w http.ResponseWriter, r *http.Request) {
 
 // CreateLanguages: cria novas instancias da struct models.ProgrammingLangs
 func CreateLanguages(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
 	if r.Method != "POST" {
 		http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 		return
@@ -85,6 +92,8 @@ func CreateLanguages(w http.ResponseWriter, r *http.Request) {
 
 // UpdateLanguages faz o update de uma determinada linguagem com base no ID
 func UpdateLanguages(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
 	if r.Method != "POST" {
 		http.Error(w, "Invalid update", http.StatusMethodNotAllowed)
 		return
@@ -117,6 +126,8 @@ func UpdateLanguages(w http.ResponseWriter, r *http.Request) {
 
 // deleta um elemento da lista de lingaguens de programação
 func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+
 	if r.Method != "DELETE" {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
 		return
