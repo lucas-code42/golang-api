@@ -12,6 +12,7 @@ func HandleRequest() {
 	http.HandleFunc("/languages", controllers.ReadLanguages)
 	http.HandleFunc("/create/languages", controllers.CreateLanguages)
 	http.HandleFunc("/update", controllers.UpdateLanguages)
+	http.HandleFunc("/delete", controllers.DeleteLanguage)
 
 	// abre a porta 5000 para o servidor rodar
 	// precisa ser a última linha

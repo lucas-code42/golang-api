@@ -114,3 +114,33 @@ func UpdateLanguages(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Sucess!"))
 }
+
+// deleta um elemento da lista de lingaguens de programação
+func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "DELETE" {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := r.URL.Query().Get("id")
+	idInt, errIdInt := strconv.Atoi(id)
+	if errIdInt != nil {
+		http.Error(w, "invalid query string", 400)
+		return
+	}
+
+	var removeIndex int
+	for index, value := range models.ProgrammingLanguages {
+		if value.Id == idInt {
+			removeIndex = index
+		}
+	}
+	models.ProgrammingLanguages = removeLangByIndex(models.ProgrammingLanguages, removeIndex)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Sucess!"))
+}
+
+// removeLangByIndex delta um elemento da lista atraves de um indice
+func removeLangByIndex(s []models.ProgrammingLangs, index int) []models.ProgrammingLangs {
+	return append(s[:index], s[index+1:]...)
+}

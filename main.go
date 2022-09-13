@@ -14,9 +14,5 @@ func main() {
 		{Id: 1, Name: "Python", Typed: false, History: "python..."},
 		{Id: 2, Name: "Golang", Typed: false, History: "golang..."},
 	}
-
-	fmt.Println(models.ProgrammingLanguages[0].Name)
-
 	routes.HandleRequest()
-
 }
