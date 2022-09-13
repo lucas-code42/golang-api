@@ -159,8 +159,8 @@ func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 }
 
 // removeLangByIndex delta um elemento da lista atraves de um indice
-func removeLangByIndex(s []models.ProgrammingLangs, index int) []models.ProgrammingLangs {
-	return append(s[:index], s[index+1:]...)
+func removeLangByIndex(array []models.ProgrammingLangs, index int) []models.ProgrammingLangs {
+	return append(array[:index], array[index+1:]...)
 }
 
 // verifyIfIdExist, verifica se um id passado na query string existe na struct
