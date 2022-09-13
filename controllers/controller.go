@@ -1,9 +1,9 @@
 package controllers
 
 /*
-CRIAR UMA INCREMENTADOR DE ID PARA STRUCT
+CRIAR UMA INCREMENTADOR DE ID PARA STRUCT 
 CRIAR UMA FUNÇÃO SANITÁRIA QUE VAI TRATAR OS INPUTS DO USUARIO DENTRO DA API
-FUNÇÃO UPDATE: Criar uma verificação caso o id passado nao exista
+FUNÇÃO UPDATE: Criar uma verificação caso o id passado nao exista -- OK
 MIDLEWARE PARA STATUS CODE
 MIDDLEWARE PARA SET HEADERS CONTENT TYPE
 CRIAR UMA FUNCAO PARA LOGS
@@ -98,6 +98,7 @@ func UpdateLanguages(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid update", http.StatusMethodNotAllowed)
 		return
 	}
+
 	// capturando uma query string na url, por padrão ela vem como string
 	id := r.URL.Query().Get("id")
 	history := r.URL.Query().Get("history")
@@ -106,6 +107,12 @@ func UpdateLanguages(w http.ResponseWriter, r *http.Request) {
 	idInt, errInt := strconv.Atoi(id)
 	if errInt != nil {
 		http.Error(w, "invalid query string", 400)
+		return
+	}
+
+	// verifica se o Id passado na query string existe
+	if idExist := verifyIfIdExist(idInt); !idExist {
+		http.Error(w, "Id not exist", 400)
 		return
 	}
 
@@ -154,4 +161,17 @@ func DeleteLanguage(w http.ResponseWriter, r *http.Request) {
 // removeLangByIndex delta um elemento da lista atraves de um indice
 func removeLangByIndex(s []models.ProgrammingLangs, index int) []models.ProgrammingLangs {
 	return append(s[:index], s[index+1:]...)
+}
+
+// verifyIfIdExist, verifica se um id passado na query string existe na struct
+func verifyIfIdExist(id int) bool {
+	var idExist bool
+	for _, v := range models.ProgrammingLanguages {
+		if v.Id == id {
+			idExist = true
+		} else {
+			idExist = false
+		}
+	}
+	return idExist
 }
