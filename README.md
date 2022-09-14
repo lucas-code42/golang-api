@@ -1,1 +1,1 @@
-### Sample CRUD golang API
+### Sample golang API
